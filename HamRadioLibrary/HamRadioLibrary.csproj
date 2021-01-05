@@ -1,0 +1,60 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>PA1REG</Authors>
+    <Company>Spanning Software</Company>
+    <Product>HamRadioLibrary for ADIF file read and Ham Radio Deluxe database query to a Maria Database</Product>
+    <Version>0.0.4</Version>
+    <Description>You can read a Amateur Data Interchange Format (ADIF) file into PowerShell and make selections  with PowerShell.
+You can alos connect to a MariaDB with a Ham Radio Deluxe table (TABLE_HRD_CONTACTS_V01). You can query the database but also make selections with PowerShell.</Description>
+    <Copyright>2020 J.R. Baalbergen de PA1REG</Copyright>
+    <PackageReleaseNotes>Beta</PackageReleaseNotes>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AssemblyVersion>0.0.5.0</AssemblyVersion>
+    <FileVersion>0.0.5.0</FileVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile></DocumentationFile>
+    <OutputPath>bin\Debug\</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\BandEnumeration.csv" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\BandEnumeration.csv" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="PowerShellStandard.Library" Version="5.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="CsvHelper">
+      <HintPath>C:\Users\pa1re\.nuget\packages\csvhelper\18.0.0\lib\netstandard2.0\CsvHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data">
+      <HintPath>MariaDB\MySql.Data.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>

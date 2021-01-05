@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29009.5
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HamRadioLibrary", "HamRadioLibrary\HamRadioLibrary.csproj", "{AF707D29-53A0-4C9C-A613-2F874FF061C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adif Test App", "Adif Test App\Adif Test App.csproj", "{C1503377-2399-4D3D-914B-852BF6EA62DD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AF707D29-53A0-4C9C-A613-2F874FF061C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF707D29-53A0-4C9C-A613-2F874FF061C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF707D29-53A0-4C9C-A613-2F874FF061C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF707D29-53A0-4C9C-A613-2F874FF061C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1503377-2399-4D3D-914B-852BF6EA62DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1503377-2399-4D3D-914B-852BF6EA62DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1503377-2399-4D3D-914B-852BF6EA62DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1503377-2399-4D3D-914B-852BF6EA62DD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {46987E65-7F22-461F-9C7A-B2E0B6E0AEB6}
+	EndGlobalSection
+EndGlobal
