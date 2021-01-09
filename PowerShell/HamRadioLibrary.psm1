@@ -2,7 +2,7 @@ $ErrorActionPreference = "Stop"
 
 #Import-Module $PSScriptRoot/HamRadioLibrary.dll
 
-function Start-HrdOmContacts {
+function Start-HrdQsoCallBandMode {
   [CmdletBinding()]
   param
   (
@@ -60,7 +60,7 @@ function Start-HrdOmContacts {
     }
 
     Write-Progress -Id $Id -Activity $Activity -Status "Ready" -Completed
-    Disconnect-HrdDatabase
+    #Disconnect-HrdDatabase
 
     Write-Host("")
     Write-Host("Readed ADIF records : $($TotalAdifRecords)") -ForegroundColor Yellow
@@ -126,7 +126,7 @@ function Start-HrdSwlContacts {
       Write-Progress -Id $Id -Activity $Activity -Status ($StatusBlock) -PercentComplete ($RecordCounter / $TotalSwlContacts * 100)
       $RecordCounter++
       Write-Host("Doing: $($SwlContact.Call)")
-      $SwlRecord = Get-HrdSearch -Call $SwlContact.Call -Band $SwlContact.Band -Mode $SwlContact.Mode -Date $SwlContact.QsoDate
+      $SwlRecord = Get-HrdSearch -Call $SwlContact.Call -Band $SwlContact.Band -Mode $SwlContact.Mode -Date $SwlContact.QsoDate -IncludeSwl
       if ($SwlRecord) {
       }
       else {
@@ -136,7 +136,7 @@ function Start-HrdSwlContacts {
     }
 
     Write-Progress -Id $Id -Activity $Activity -Status "Ready" -Completed
-    Disconnect-HrdDatabase
+    #Disconnect-HrdDatabase
 
     Write-Host("")
     Write-Host("Readed ADIF records : $($TotalAdifRecords)") -ForegroundColor Yellow
@@ -153,5 +153,5 @@ function Start-HrdSwlContacts {
   }
 }
 
-Export-ModuleMember -function Start-HrdOmContacts
+Export-ModuleMember -function Start-HrdQsoCallBandMode
 Export-ModuleMember -function Start-HrdSwlContacts

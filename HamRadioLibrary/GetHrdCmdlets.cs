@@ -30,20 +30,20 @@ namespace HrdCmdLets
         {
             WriteVerbose("Start Opening Database.");
 
-            if (HrdUtils.CheckDatabaseOpen())
+            if (HamRadioDeluxe.CheckDatabaseOpen())
             {
                 //    Console.WriteLine("Database still open.");
                 //    return;
                 WriteVerbose("Closing database, because it was open.");
-                HrdUtils.DisconnectFromDatabase();
+                HamRadioDeluxe.DisconnectFromDatabase();
             }
 
-            if (!HrdUtils.ConnectToDatabase(Server, Port, User, Password, Database))
+            if (!HamRadioDeluxe.ConnectToDatabase(Server, Port, User, Password, Database))
             {
                 WriteVerbose("Database open, checking for existing hrd table.");
                 try
                 {
-                    if (!HrdUtils.ExistsTableHrdContacts())
+                    if (!HamRadioDeluxe.ExistsTableHrdContacts())
                     {
                         WriteVerbose("Hrd table not found.");
                         throw new TABLEHRDCONTACTSException("Could not find table : TABLE_HRD_CONTACTS_V01");
@@ -53,7 +53,7 @@ namespace HrdCmdLets
                 {
                     WriteError(new ErrorRecord(ex, "Hrd Database Disconnected",
                                  ErrorCategory.ObjectNotFound, "TABLE_HRD_CONTACTS_V01"));
-                    HrdUtils.DisconnectFromDatabase();
+                    HamRadioDeluxe.DisconnectFromDatabase();
                 }
             }
         }
@@ -76,7 +76,7 @@ namespace HrdCmdLets
         protected override void ProcessRecord()
         {
             WriteVerbose("Disconnecting Database.");
-            HrdUtils.DisconnectFromDatabase();
+            HamRadioDeluxe.DisconnectFromDatabase();
             //WriteObject("jolo");
         }
     }
@@ -88,14 +88,14 @@ namespace HrdCmdLets
 
         protected override void ProcessRecord()
         {
-            if (!HrdUtils.CheckDatabaseOpen())
+            if (!HamRadioDeluxe.CheckDatabaseOpen())
             {
                 ThrowTerminatingError(new ErrorRecord(new Exception("You must call the Connect-HrdDatabase cmdlet before calling any other cmdlets."), "NotConnectedToDatabase", ErrorCategory.ConnectionError, this));
                 return;
             }
 
             WriteVerbose("Show database info.");
-            HrdUtils.DatabaseInfo();
+            HamRadioDeluxe.DatabaseInfo();
 
             StringBuilder sb = new StringBuilder();
 
@@ -103,11 +103,14 @@ namespace HrdCmdLets
             var modulename = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
 
             sb.AppendLine("Module name (dll) : " + modulename);
-            sb.Append("Module version    : " + version.Major + "." + version.Minor);
-            if (version.Build > 0)
-            {
-                sb.Append(" [patch " + version.Build + "]");
-            }
+            sb.Append("Module version    : " + version.Major + "." + version.Minor + "." + version.Build + "." + version.Revision);
+
+            //if (version.Build > 0)
+            //{
+            //    sb.Append(" [patch " + version.Build + "]");
+            //    sb.Append("Revision " + version.Revision);
+            //    sb.Append(version.Build + "." + version.Revision);
+            //}
             sb.AppendLine();
 
             Console.WriteLine();
@@ -123,13 +126,13 @@ namespace HrdCmdLets
 
         protected override void ProcessRecord()
         {
-            if (!HrdUtils.CheckDatabaseOpen())
+            if (!HamRadioDeluxe.CheckDatabaseOpen())
             {
                 ThrowTerminatingError(new ErrorRecord(new Exception("You must call the Connect-HrdDatabase cmdlet before calling any other cmdlets."), "NotConnectedToDatabase", ErrorCategory.ConnectionError, this));
                 return;
             }
             WriteVerbose("Start Optimze Database.");
-            HrdUtils.OptimizeHrdTable();
+            HamRadioDeluxe.OptimizeHrdTable();
         }
     }
 
@@ -140,13 +143,13 @@ namespace HrdCmdLets
 
         protected override void ProcessRecord()
         {
-            if (!HrdUtils.CheckDatabaseOpen())
+            if (!HamRadioDeluxe.CheckDatabaseOpen())
             {
                 ThrowTerminatingError(new ErrorRecord(new Exception("You must call the Connect-HrdDatabase cmdlet before calling any other cmdlets."), "NotConnectedToDatabase", ErrorCategory.ConnectionError, this));
                 return;
             }
             WriteVerbose("Start Analyze Database.");
-            HrdUtils.AnalyzeHrdTable();
+            HamRadioDeluxe.AnalyzeHrdTable();
         }
     }
 
@@ -163,11 +166,13 @@ namespace HrdCmdLets
         public string Mode { get; set; }
         [Parameter(Position = 3, Mandatory = false)]
         public string Date { get; set; }
+        [Parameter(Position = 4, Mandatory = false)]
+        public SwitchParameter IncludeSwl { get; set; }
 
         protected override void ProcessRecord()
         {
             //if (!HrdUtils.CheckDatabaseOpen()) { WriteWarning(MethodBase.GetCurrentMethod().DeclaringType.Name + " : You must call the Connect-HrdDatabase cmdlet before calling any other cmdlets."); return; }
-            if (!HrdUtils.CheckDatabaseOpen())
+            if (!HamRadioDeluxe.CheckDatabaseOpen())
             {
                 ThrowTerminatingError(new ErrorRecord(new Exception("You must call the Connect-HrdDatabase cmdlet before calling any other cmdlets."), "NotConnectedToDatabase", ErrorCategory.ConnectionError, this));
                 return;
@@ -177,7 +182,7 @@ namespace HrdCmdLets
             object SearchDate = null;
             if (Date != "" && Date != null)
             {
-                SearchDate = HrdUtils.ConvertToDate(Date);
+                SearchDate = HamRadioDeluxe.ConvertToDate(Date);
                 if (SearchDate == null)
                 {
                     WriteWarning("The entered Date (" + Date + ") is not the correct format (yyyyMMdd).");
@@ -185,8 +190,14 @@ namespace HrdCmdLets
                 }
             }
 
+            bool SwlInclude = false;
+            if (IncludeSwl)
+            {
+                SwlInclude = true;
+            }
+
             WriteVerbose("Search database.");
-            if (HrdUtils.SearchDatabase(Call, Band, Mode, SearchDate))
+            if (HamRadioDeluxe.SearchDatabase(Call, Band, Mode, SearchDate, SwlInclude))
             {
 
                 // T.O.D.O. qso band mode
@@ -221,9 +232,9 @@ namespace HrdCmdLets
                 //});
 
                 WriteVerbose("Reading record.");
-                foreach (HrdUtils.HrdFieldsObjects FieldList in HrdUtils.HrdFieldsList)
+                foreach (HamRadioDeluxe.HrdFieldsObjects FieldList in HamRadioDeluxe.HrdFieldsList)
                 {
-                    WriteObject(new HrdUtils.HrdFieldsObjects
+                    WriteObject(new HamRadioDeluxe.HrdFieldsObjects
                     {
                         CALL = FieldList.CALL,
                         QSO_DATE = FieldList.QSO_DATE,
@@ -259,13 +270,13 @@ namespace HrdCmdLets
 
         protected override void ProcessRecord()
         {
-            if (!HrdUtils.CheckDatabaseOpen())
+            if (!HamRadioDeluxe.CheckDatabaseOpen())
             {
                 ThrowTerminatingError(new ErrorRecord(new Exception("You must call the Connect-HrdDatabase cmdlet before calling any other cmdlets."), "NotConnectedToDatabase", ErrorCategory.ConnectionError, this));
                 return;
             }
             WriteVerbose("Fill the list.");
-            HrdUtils.IndexDatabaseStatistics();
+            HamRadioDeluxe.IndexDatabaseStatistics();
 
             //WriteObject(new HrdUtils.HrdIndexObjectUtils
             //{
@@ -275,9 +286,9 @@ namespace HrdCmdLets
             //});
 
             WriteVerbose("Reading list.");
-            foreach (HrdUtils.HrdIndexObjects IndexList in HrdUtils.HrdIndexList)
+            foreach (HamRadioDeluxe.HrdIndexObjects IndexList in HamRadioDeluxe.HrdIndexList)
             {
-                WriteObject(new HrdUtils.HrdIndexObjects
+                WriteObject(new HamRadioDeluxe.HrdIndexObjects
                 {
                     INDEX_NAME = IndexList.INDEX_NAME,
                     INDEX_COLUMNS = IndexList.INDEX_COLUMNS,
@@ -299,18 +310,18 @@ namespace HrdCmdLets
 
         protected override void ProcessRecord()
         {
-            if (!HrdUtils.CheckDatabaseOpen())
+            if (!HamRadioDeluxe.CheckDatabaseOpen())
             {
                 ThrowTerminatingError(new ErrorRecord(new Exception("You must call the Connect-HrdDatabase cmdlet before calling any other cmdlets."), "NotConnectedToDatabase", ErrorCategory.ConnectionError, this));
                 return;
             }
             WriteVerbose("Fill the list.");
-            HrdUtils.ReportMode();
+            HamRadioDeluxe.ReportMode();
 
             WriteVerbose("Reading list.");
-            foreach (HrdUtils.ReportModeObjects ModeList in HrdUtils.HrdModeList)
+            foreach (HamRadioDeluxe.ReportModeObjects ModeList in HamRadioDeluxe.HrdModeList)
             {
-                WriteObject(new HrdUtils.ReportModeObjects
+                WriteObject(new HamRadioDeluxe.ReportModeObjects
                 {
                     MODE = ModeList.MODE,
                     SUBMODE = ModeList.SUBMODE,
@@ -328,18 +339,18 @@ namespace HrdCmdLets
 
         protected override void ProcessRecord()
         {
-            if (!HrdUtils.CheckDatabaseOpen())
+            if (!HamRadioDeluxe.CheckDatabaseOpen())
             {
                 ThrowTerminatingError(new ErrorRecord(new Exception("You must call the Connect-HrdDatabase cmdlet before calling any other cmdlets."), "NotConnectedToDatabase", ErrorCategory.ConnectionError, this));
                 return;
             }
             WriteVerbose("Fill the list.");
-            HrdUtils.ReportBand();
+            HamRadioDeluxe.ReportBand();
 
             WriteVerbose("Reading list.");
-            foreach (HrdUtils.ReportBandObjects BandList in HrdUtils.HrdBandList)
+            foreach (HamRadioDeluxe.ReportBandObjects BandList in HamRadioDeluxe.HrdBandList)
             {
-                WriteObject(new HrdUtils.ReportBandObjects
+                WriteObject(new HamRadioDeluxe.ReportBandObjects
                 {
                     BAND = BandList.BAND,
                     WORKED = BandList.WORKED
@@ -355,18 +366,18 @@ namespace HrdCmdLets
 
         protected override void ProcessRecord()
         {
-            if (!HrdUtils.CheckDatabaseOpen())
+            if (!HamRadioDeluxe.CheckDatabaseOpen())
             {
                 ThrowTerminatingError(new ErrorRecord(new Exception("You must call the Connect-HrdDatabase cmdlet before calling any other cmdlets."), "NotConnectedToDatabase", ErrorCategory.ConnectionError, this));
                 return;
             }
             WriteVerbose("Fill the list.");
-            HrdUtils.ReportModeBand();
+            HamRadioDeluxe.ReportModeBand();
 
             WriteVerbose("Reading list.");
-            foreach (HrdUtils.ReportBandModeObjects BandModeList in HrdUtils.HrdBandModeList)
+            foreach (HamRadioDeluxe.ReportBandModeObjects BandModeList in HamRadioDeluxe.HrdBandModeList)
             {
-                WriteObject(new HrdUtils.ReportBandModeObjects
+                WriteObject(new HamRadioDeluxe.ReportBandModeObjects
                 {
                     BAND = BandModeList.BAND,
                     MODE = BandModeList.MODE,
@@ -389,7 +400,7 @@ namespace HrdCmdLets
 
         protected override void ProcessRecord()
         {
-            if (!HrdUtils.CheckDatabaseOpen())
+            if (!HamRadioDeluxe.CheckDatabaseOpen())
             {
                 ThrowTerminatingError(new ErrorRecord(new Exception("You must call the Connect-HrdDatabase cmdlet before calling any other cmdlets."), "NotConnectedToDatabase", ErrorCategory.ConnectionError, this));
                 return;
@@ -399,7 +410,7 @@ namespace HrdCmdLets
             object LowestDate = null;
             if (StartDate != "" && StartDate != null)
             {
-                LowestDate = HrdUtils.ConvertToDate(StartDate);
+                LowestDate = HamRadioDeluxe.ConvertToDate(StartDate);
                 if (LowestDate == null)
                 {
                     WriteWarning("The entered StartDate (" + StartDate + ") is not the correct format (yyyyMMdd).");
@@ -411,7 +422,7 @@ namespace HrdCmdLets
             object HighestDate = null;
             if (EndDate != "" && EndDate != null)
             {
-                HighestDate = HrdUtils.ConvertToDate(EndDate);
+                HighestDate = HamRadioDeluxe.ConvertToDate(EndDate);
                 if (LowestDate == null)
                 {
                     WriteWarning("The entered EndDate (" + EndDate + ") is not the correct format (yyyyMMdd).");
@@ -420,7 +431,7 @@ namespace HrdCmdLets
             }
 
             WriteVerbose("Fill the list.");
-            HrdUtils.ReportYearBandMode(LowestDate, HighestDate);
+            HamRadioDeluxe.ReportYearBandMode(LowestDate, HighestDate);
 
             // todo https://stackoverflow.com/questions/29224905/powershell-output-formatting-from-c-sharp-using-defaultdisplaypropertyset
 
@@ -430,9 +441,9 @@ namespace HrdCmdLets
             string[] DefaultProperties = { "YEAR", "BAND", "Property4" };
 
             WriteVerbose("Reading list.");
-            foreach (HrdUtils.ReportYearBandModeObjects YearBandModeList in HrdUtils.HrdYearBandModeList)
+            foreach (HamRadioDeluxe.ReportYearBandModeObjects YearBandModeList in HamRadioDeluxe.HrdYearBandModeList)
             {
-                WriteObject(new HrdUtils.ReportYearBandModeObjects
+                WriteObject(new HamRadioDeluxe.ReportYearBandModeObjects
                 {
                     YEAR = YearBandModeList.YEAR,
                     BAND = YearBandModeList.BAND,
@@ -451,18 +462,18 @@ namespace HrdCmdLets
 
         protected override void ProcessRecord()
         {
-            if (!HrdUtils.CheckDatabaseOpen())
+            if (!HamRadioDeluxe.CheckDatabaseOpen())
             {
                 ThrowTerminatingError(new ErrorRecord(new Exception("You must call the Connect-HrdDatabase cmdlet before calling any other cmdlets."), "NotConnectedToDatabase", ErrorCategory.ConnectionError, this));
                 return;
             }
             WriteVerbose("Fill the list.");
-            HrdUtils.ReportQso();
+            HamRadioDeluxe.ReportQso();
 
             WriteVerbose("Reading list.");
-            foreach (HrdUtils.ReportQsoObjects QsoList in HrdUtils.HrdQsoList)
+            foreach (HamRadioDeluxe.ReportQsoObjects QsoList in HamRadioDeluxe.HrdQsoList)
             {
-                WriteObject(new HrdUtils.ReportQsoObjects
+                WriteObject(new HamRadioDeluxe.ReportQsoObjects
                 {
                     WORKED = QsoList.WORKED,
                     OM = QsoList.OM,
@@ -480,18 +491,18 @@ namespace HrdCmdLets
 
         protected override void ProcessRecord()
         {
-            if (!HrdUtils.CheckDatabaseOpen())
+            if (!HamRadioDeluxe.CheckDatabaseOpen())
             {
                 ThrowTerminatingError(new ErrorRecord(new Exception("You must call the Connect-HrdDatabase cmdlet before calling any other cmdlets."), "NotConnectedToDatabase", ErrorCategory.ConnectionError, this));
                 return;
             }
             WriteVerbose("Fill the list.");
-            HrdUtils.ReportQsoPerYear();
+            HamRadioDeluxe.ReportQsoPerYear();
 
             WriteVerbose("Reading list.");
-            foreach (HrdUtils.ReportQsoByYearObjects QsoByYearList in HrdUtils.HrdQsoByYearList)
+            foreach (HamRadioDeluxe.ReportQsoByYearObjects QsoByYearList in HamRadioDeluxe.HrdQsoByYearList)
             {
-                WriteObject(new HrdUtils.ReportQsoByYearObjects
+                WriteObject(new HamRadioDeluxe.ReportQsoByYearObjects
                 {
                     YEAR = QsoByYearList.YEAR,
                     WORKED = QsoByYearList.WORKED,

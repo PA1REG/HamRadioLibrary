@@ -61,7 +61,7 @@ namespace HamRadioLibrary.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Band;LOWERFREQUENTIE;HIGHERFREQUENTIE
+        ///   Looks up a localized string similar to BAND;LOWERFREQUENTIE;HIGHERFREQUENTIE
         ///2190m;.1357;.1378
         ///630m;.472;.479
         ///560m;.501;.504

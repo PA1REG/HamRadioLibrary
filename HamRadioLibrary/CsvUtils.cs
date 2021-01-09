@@ -74,7 +74,14 @@ namespace CsvLibrary
                 AdiArray.Add("<EOH>");
 
                 csv.Read();
-                csv.ReadHeader();
+                try
+                {
+                    csv.ReadHeader();
+                }
+                catch (Exception)
+                {
+                    return;
+                }
                 csv.Configuration.MissingFieldFound = null;
 
                 while (csv.Read())

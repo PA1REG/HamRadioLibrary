@@ -11,10 +11,12 @@ using MySql.Data.MySqlClient;
 using System.Data;
 using System.Xml;
 using System.Runtime.InteropServices;
+using HamRadioDeluxeProperties;
+using System.Diagnostics;
 
 namespace HrdLibrary
 {
-    public class HrdUtils
+    public class HamRadioDeluxe
     {
         public static object ConvertToDate(String DateToConvert)
         {
@@ -160,6 +162,7 @@ namespace HrdLibrary
             {
                 string SqlCommand = "OPTIMIZE TABLE TABLE_HRD_CONTACTS_V01;";
                 MySqlCommand Command = new MySqlCommand(SqlCommand, HrdLogbookConnection);
+                Command.CommandTimeout = 3600;
                 Command.ExecuteNonQuery();
             }
             catch (Exception)
@@ -172,6 +175,7 @@ namespace HrdLibrary
         {
             string SqlCommand = "ANALYZE TABLE TABLE_HRD_CONTACTS_V01;";
             MySqlCommand Command = new MySqlCommand(SqlCommand, HrdLogbookConnection);
+            Command.CommandTimeout = 3600;
             Command.ExecuteNonQuery();
         }
         public static void NetTimeout()
@@ -182,12 +186,16 @@ namespace HrdLibrary
             SqlCommand = "set @@global.net_read_timeout = 7200;";
             Command = new MySqlCommand(SqlCommand, HrdLogbookConnection);
             Command.ExecuteNonQuery();
+            //mysqlCommand.CommandTimeout = 600;
+            //SqlCommand = "set @@global.CommandTimeout = 7200;";
+            //Command = new MySqlCommand(SqlCommand, HrdLogbookConnection);
+            //Command.ExecuteNonQuery();
         }
 
 
         public static List<HrdFieldsObjects> HrdFieldsList = new List<HrdFieldsObjects>();
 
-        public static dynamic SearchDatabase(string strCall, string strBand, string strMode, object objDate)
+        public static dynamic SearchDatabase(string strCall, string strBand, string strMode, object objDate, bool strSwl)
         {
 
 
@@ -205,8 +213,7 @@ namespace HrdLibrary
                 SqlCommand = "SELECT COL_CALL, DATE_FORMAT(COL_TIME_ON, '%Y%m%d') AS COL_QSO_DATE, DATE_FORMAT(COL_TIME_ON, '%H%i%s') AS COL_TIME_ON, DATE_FORMAT(COL_TIME_OFF, '%H%i%s') AS COL_TIME_OFF," +
                              " COL_BAND, COL_MODE, COL_RST_SENT, COL_RST_RCVD, COL_QSL_SENT, COL_QSL_SENT_VIA, COL_GRIDSQUARE, COL_STATION_CALLSIGN, COL_FREQ, COL_CONTEST_ID, COL_OPERATOR, COL_CQZ, COL_STX, COL_SWL" +
                              " FROM TABLE_HRD_CONTACTS_V01" +
-                             " WHERE COL_CALL LIKE '" + strCall + "'" +
-                             " and COL_SWL = 0";
+                             " WHERE COL_CALL LIKE '" + strCall + "'";
 
             }
             else if (strBand == null)
@@ -217,10 +224,15 @@ namespace HrdLibrary
                                  " COL_BAND, COL_MODE, COL_RST_SENT, COL_RST_RCVD, COL_QSL_SENT, COL_QSL_SENT_VIA, COL_GRIDSQUARE, COL_STATION_CALLSIGN, COL_FREQ, COL_CONTEST_ID, COL_OPERATOR, COL_CQZ, COL_STX, COL_SWL" +
                                  " FROM TABLE_HRD_CONTACTS_V01" +
                                  " WHERE COL_CALL = '" + strCall + "'" +
-                                 " AND (COL_MODE = 'LSB'" +
-                                 " OR COL_MODE = 'USB'" +
-                                 " OR COL_MODE = 'SSB')" +
-                                 " and COL_SWL = 0";
+                                 " AND COL_MODE IN ('LSB', 'USB', 'SSB')";
+                    //SqlCommand = "SELECT COL_CALL, DATE_FORMAT(COL_TIME_ON, '%Y%m%d') AS COL_QSO_DATE, DATE_FORMAT(COL_TIME_ON, '%H%i%s') AS COL_TIME_ON, DATE_FORMAT(COL_TIME_OFF, '%H%i%s') AS COL_TIME_OFF," +
+                    //             " COL_BAND, COL_MODE, COL_RST_SENT, COL_RST_RCVD, COL_QSL_SENT, COL_QSL_SENT_VIA, COL_GRIDSQUARE, COL_STATION_CALLSIGN, COL_FREQ, COL_CONTEST_ID, COL_OPERATOR, COL_CQZ, COL_STX, COL_SWL" +
+                    //             " FROM TABLE_HRD_CONTACTS_V01" +
+                    //             " WHERE COL_CALL = '" + strCall + "'" +
+                    //             " AND (COL_MODE = 'LSB'" +
+                    //             " OR COL_MODE = 'USB'" +
+                    //             " OR COL_MODE = 'SSB')" +
+                    //             " and COL_SWL = 0";
                 }
                 else
                 {
@@ -229,8 +241,7 @@ namespace HrdLibrary
                              " COL_BAND, COL_MODE, COL_RST_SENT, COL_RST_RCVD, COL_QSL_SENT, COL_QSL_SENT_VIA, COL_GRIDSQUARE, COL_STATION_CALLSIGN, COL_FREQ, COL_CONTEST_ID, COL_OPERATOR, COL_CQZ, COL_STX, COL_SWL" +
                              " FROM TABLE_HRD_CONTACTS_V01" +
                              " WHERE COL_CALL = '" + strCall + "'" +
-                             " AND COL_MODE = '" + strMode + "'" +
-                             " and COL_SWL = 0";
+                             " AND COL_MODE = '" + strMode + "'";
                 }
             }
             else if (strMode == null)
@@ -239,23 +250,30 @@ namespace HrdLibrary
                              " COL_BAND, COL_MODE, COL_RST_SENT, COL_RST_RCVD, COL_QSL_SENT, COL_QSL_SENT_VIA, COL_GRIDSQUARE, COL_STATION_CALLSIGN, COL_FREQ, COL_CONTEST_ID, COL_OPERATOR, COL_CQZ, COL_STX, COL_SWL" +
                              " FROM TABLE_HRD_CONTACTS_V01" +
                              " WHERE COL_CALL = '" + strCall + "'" +
-                             " AND COL_BAND = '" + strBand + "'" +
-                             " and COL_SWL = 0";
+                             " AND COL_BAND = '" + strBand + "'";
             }
             else
             {
                 if (strMode.ToUpper() == "SSB")
                 {
+                    // todo or --> in
                     SqlCommand = "SELECT COL_CALL, DATE_FORMAT(COL_TIME_ON, '%Y%m%d') AS COL_QSO_DATE, DATE_FORMAT(COL_TIME_ON, '%H%i%s') AS COL_TIME_ON, DATE_FORMAT(COL_TIME_OFF, '%H%i%s') AS COL_TIME_OFF," +
                                  " COL_BAND, COL_MODE, COL_RST_SENT, COL_RST_RCVD, COL_QSL_SENT, COL_QSL_SENT_VIA, COL_GRIDSQUARE, COL_STATION_CALLSIGN, COL_FREQ, COL_CONTEST_ID, COL_OPERATOR, COL_CQZ, COL_STX, COL_SWL" +
                                  " FROM TABLE_HRD_CONTACTS_V01" +
                                  " WHERE COL_CALL = '" + strCall + "'" +
                                  " AND COL_BAND = '" + strBand + "'" +
-                                 " AND (COL_MODE = 'LSB'" +
-                                 " OR COL_MODE = 'USB'" +
-                                 " OR COL_MODE = 'SSB')" +
-                                 " and COL_SWL = 0";
+                                 " AND COL_MODE IN ('LSB', 'USB', 'SSB')";
                 }
+                //    SqlCommand = "SELECT COL_CALL, DATE_FORMAT(COL_TIME_ON, '%Y%m%d') AS COL_QSO_DATE, DATE_FORMAT(COL_TIME_ON, '%H%i%s') AS COL_TIME_ON, DATE_FORMAT(COL_TIME_OFF, '%H%i%s') AS COL_TIME_OFF," +
+                //            " COL_BAND, COL_MODE, COL_RST_SENT, COL_RST_RCVD, COL_QSL_SENT, COL_QSL_SENT_VIA, COL_GRIDSQUARE, COL_STATION_CALLSIGN, COL_FREQ, COL_CONTEST_ID, COL_OPERATOR, COL_CQZ, COL_STX, COL_SWL" +
+                //            " FROM TABLE_HRD_CONTACTS_V01" +
+                //            " WHERE COL_CALL = '" + strCall + "'" +
+                //            " AND COL_BAND = '" + strBand + "'" +
+                //            " AND (COL_MODE = 'LSB'" +
+                //            " OR COL_MODE = 'USB'" +
+                //            " OR COL_MODE = 'SSB')" +
+                //            " and COL_SWL = 0";
+                //}
                 else
                 {
                     SqlCommand = "SELECT COL_CALL, DATE_FORMAT(COL_TIME_ON, '%Y%m%d') AS COL_QSO_DATE, DATE_FORMAT(COL_TIME_ON, '%H%i%s') AS COL_TIME_ON, DATE_FORMAT(COL_TIME_OFF, '%H%i%s') AS COL_TIME_OFF," +
@@ -263,8 +281,7 @@ namespace HrdLibrary
                                  " FROM TABLE_HRD_CONTACTS_V01" +
                                  " WHERE COL_CALL = '" + strCall + "'" +
                                  " AND COL_BAND = '" + strBand + "'" +
-                                 " AND COL_MODE = '" + strMode + "'" +
-                                 " and COL_SWL = 0";
+                                 " AND COL_MODE = '" + strMode + "'";
 
                 }
             }
@@ -278,6 +295,11 @@ namespace HrdLibrary
                     SqlCommand += " and DATE(COL_TIME_ON) = '" + DateSql + "'";
                 }
 
+            }
+
+            if (!strSwl)
+            {
+                SqlCommand += " and COL_SWL = 0";
             }
 
             MySqlCommand Command = new MySqlCommand(SqlCommand, HrdLogbookConnection);
@@ -562,6 +584,213 @@ namespace HrdLibrary
         //        SELECT COL_DXCC,count(*) AS Total
         //        FROM `TABLE_HRD_CONTACTS_V01` 
         //group by COL_DXCC
+
+
+        public static List<HRDProperties.ReportYearModeProperty> HrdQsoYearModeList = new List<HRDProperties.ReportYearModeProperty>();
+
+        public static void ReportQsoYearMode()
+        {
+            string MyDatabase = CurrentDatabase();
+            //                      (select count(*) as SWL from `TABLE_HRD_CONTACTS_V01` where col_swl=1) as SWL,
+            string SqlCommand = @"SELECT DATE_FORMAT(COL_TIME_ON, '%Y') as YEAR,
+                                SUM(CASE WHEN COL_MODE = 'AM' THEN 1 ELSE 0 END) AM,
+                                SUM(CASE WHEN COL_MODE = 'ARDOP' THEN 1 ELSE 0 END) ARDOP,
+                                SUM(CASE WHEN COL_MODE = 'ATV' THEN 1 ELSE 0 END) ATV,
+                                SUM(CASE WHEN COL_MODE = 'C4FM' THEN 1 ELSE 0 END) C4FM,
+                                SUM(CASE WHEN COL_MODE = 'CHIP' THEN 1 ELSE 0 END) CHIP,
+                                SUM(CASE WHEN COL_MODE = 'CLO' THEN 1 ELSE 0 END) CLO,
+                                SUM(CASE WHEN COL_MODE = 'CONTESTI' THEN 1 ELSE 0 END) CONTESTI,
+                                SUM(CASE WHEN COL_MODE = 'CW' THEN 1 ELSE 0 END) CW,
+                                SUM(CASE WHEN COL_MODE = 'DIGITALVOICE' THEN 1 ELSE 0 END) DIGITALVOICE,
+                                SUM(CASE WHEN COL_MODE = 'DOMINO' THEN 1 ELSE 0 END) DOMINO,
+                                SUM(CASE WHEN COL_MODE = 'DSTAR' THEN 1 ELSE 0 END) DSTAR,
+                                SUM(CASE WHEN COL_MODE = 'FAX' THEN 1 ELSE 0 END) FAX,
+                                SUM(CASE WHEN COL_MODE = 'FM' THEN 1 ELSE 0 END) FM,
+                                SUM(CASE WHEN COL_MODE = 'FSK441' THEN 1 ELSE 0 END) FSK441,
+                                SUM(CASE WHEN COL_MODE = 'FT8' THEN 1 ELSE 0 END) FT8,
+                                SUM(CASE WHEN COL_MODE = 'HELL' THEN 1 ELSE 0 END) HELL,
+                                SUM(CASE WHEN COL_MODE = 'ISCAT' THEN 1 ELSE 0 END) ISCAT,
+                                SUM(CASE WHEN COL_MODE = 'JT4' THEN 1 ELSE 0 END) JT4,
+                                SUM(CASE WHEN COL_MODE = 'JT6M' THEN 1 ELSE 0 END) JT6M,
+                                SUM(CASE WHEN COL_MODE = 'JT9' THEN 1 ELSE 0 END) JT9,
+                                SUM(CASE WHEN COL_MODE = 'JT44' THEN 1 ELSE 0 END) JT44,
+                                SUM(CASE WHEN COL_MODE = 'JT65' THEN 1 ELSE 0 END) JT65,
+                                SUM(CASE WHEN COL_MODE = 'MFSK' THEN 1 ELSE 0 END) MFSK,
+                                SUM(CASE WHEN COL_MODE = 'MSK144' THEN 1 ELSE 0 END) MSK144,
+                                SUM(CASE WHEN COL_MODE = 'MT63' THEN 1 ELSE 0 END) MT63,
+                                SUM(CASE WHEN COL_MODE = 'OLIVIA' THEN 1 ELSE 0 END) OLIVIA,
+                                SUM(CASE WHEN COL_MODE = 'OPERA' THEN 1 ELSE 0 END) OPERA,
+                                SUM(CASE WHEN COL_MODE = 'PAC' THEN 1 ELSE 0 END) PAC,
+                                SUM(CASE WHEN COL_MODE = 'PAX' THEN 1 ELSE 0 END) PAX,
+                                SUM(CASE WHEN COL_MODE = 'PKT' THEN 1 ELSE 0 END) PKT,
+                                SUM(CASE WHEN COL_MODE = 'PSK' THEN 1 ELSE 0 END) PSK,
+                                SUM(CASE WHEN COL_MODE = 'PSK2K' THEN 1 ELSE 0 END) PSK2K,
+                                SUM(CASE WHEN COL_MODE = 'Q15' THEN 1 ELSE 0 END) Q15,
+                                SUM(CASE WHEN COL_MODE = 'QRA64' THEN 1 ELSE 0 END) QRA64,
+                                SUM(CASE WHEN COL_MODE = 'ROS' THEN 1 ELSE 0 END) ROS,
+                                SUM(CASE WHEN COL_MODE = 'RTTY' THEN 1 ELSE 0 END) RTTY,
+                                SUM(CASE WHEN COL_MODE = 'RTTYM' THEN 1 ELSE 0 END) RTTYM,
+                                SUM(CASE WHEN COL_MODE IN ('SSB','LSB','USB') THEN 1 ELSE 0 END) SSB,
+                                SUM(CASE WHEN COL_MODE = 'SSTV' THEN 1 ELSE 0 END) SSTV,
+                                SUM(CASE WHEN COL_MODE = 'T10' THEN 1 ELSE 0 END) T10,
+                                SUM(CASE WHEN COL_MODE = 'THOR' THEN 1 ELSE 0 END) THOR,
+                                SUM(CASE WHEN COL_MODE = 'THRB' THEN 1 ELSE 0 END) THRB,
+                                SUM(CASE WHEN COL_MODE = 'TOR' THEN 1 ELSE 0 END) TOR,
+                                SUM(CASE WHEN COL_MODE = 'V4' THEN 1 ELSE 0 END) V4,
+                                SUM(CASE WHEN COL_MODE = 'VOI' THEN 1 ELSE 0 END) VOI,
+                                SUM(CASE WHEN COL_MODE = 'WINMOR' THEN 1 ELSE 0 END) WINMOR,
+                                SUM(CASE WHEN COL_MODE = 'WSPR' THEN 1 ELSE 0 END) WSPR,
+                                SUM(CASE WHEN COL_MODE = 'AMTORFEC' THEN 1 ELSE 0 END) AMTORFEC,
+                                SUM(CASE WHEN COL_MODE = 'ASCI' THEN 1 ELSE 0 END) ASCI,
+                                SUM(CASE WHEN COL_MODE = 'CHIP64' THEN 1 ELSE 0 END) CHIP64,
+                                SUM(CASE WHEN COL_MODE = 'CHIP128' THEN 1 ELSE 0 END) CHIP128,
+                                SUM(CASE WHEN COL_MODE = 'DOMINOF' THEN 1 ELSE 0 END) DOMINOF,
+                                SUM(CASE WHEN COL_MODE = 'FMHELL' THEN 1 ELSE 0 END) FMHELL,
+                                SUM(CASE WHEN COL_MODE = 'FSK31' THEN 1 ELSE 0 END) FSK31,
+                                SUM(CASE WHEN COL_MODE = 'GTOR' THEN 1 ELSE 0 END) GTOR,
+                                SUM(CASE WHEN COL_MODE = 'HELL80' THEN 1 ELSE 0 END) HELL80,
+                                SUM(CASE WHEN COL_MODE = 'HFSK' THEN 1 ELSE 0 END) HFSK,
+                                SUM(CASE WHEN COL_MODE = 'JT4A' THEN 1 ELSE 0 END) JT4A,
+                                SUM(CASE WHEN COL_MODE = 'JT4B' THEN 1 ELSE 0 END) JT4B,
+                                SUM(CASE WHEN COL_MODE = 'JT4C' THEN 1 ELSE 0 END) JT4C,
+                                SUM(CASE WHEN COL_MODE = 'JT4D' THEN 1 ELSE 0 END) JT4D,
+                                SUM(CASE WHEN COL_MODE = 'JT4E' THEN 1 ELSE 0 END) JT4E,
+                                SUM(CASE WHEN COL_MODE = 'JT4F' THEN 1 ELSE 0 END) JT4F,
+                                SUM(CASE WHEN COL_MODE = 'JT4G' THEN 1 ELSE 0 END) JT4G,
+                                SUM(CASE WHEN COL_MODE = 'JT65A' THEN 1 ELSE 0 END) JT65A,
+                                SUM(CASE WHEN COL_MODE = 'JT65B' THEN 1 ELSE 0 END) JT65B,
+                                SUM(CASE WHEN COL_MODE = 'JT65C' THEN 1 ELSE 0 END) JT65C,
+                                SUM(CASE WHEN COL_MODE = 'MFSK8' THEN 1 ELSE 0 END) MFSK8,
+                                SUM(CASE WHEN COL_MODE = 'MFSK16' THEN 1 ELSE 0 END) MFSK16,
+                                SUM(CASE WHEN COL_MODE = 'PAC2' THEN 1 ELSE 0 END) PAC2,
+                                SUM(CASE WHEN COL_MODE = 'PAC3' THEN 1 ELSE 0 END) PAC3,
+                                SUM(CASE WHEN COL_MODE = 'PAX2' THEN 1 ELSE 0 END) PAX2,
+                                SUM(CASE WHEN COL_MODE = 'PCW' THEN 1 ELSE 0 END) PCW,
+                                SUM(CASE WHEN COL_MODE = 'PSK10' THEN 1 ELSE 0 END) PSK10,
+                                SUM(CASE WHEN COL_MODE = 'PSK31' THEN 1 ELSE 0 END) PSK31,
+                                SUM(CASE WHEN COL_MODE = 'PSK63' THEN 1 ELSE 0 END) PSK63,
+                                SUM(CASE WHEN COL_MODE = 'PSK63F' THEN 1 ELSE 0 END) PSK63F,
+                                SUM(CASE WHEN COL_MODE = 'PSK125' THEN 1 ELSE 0 END) PSK125,
+                                SUM(CASE WHEN COL_MODE = 'PSKAM10' THEN 1 ELSE 0 END) PSKAM10,
+                                SUM(CASE WHEN COL_MODE = 'PSKAM31' THEN 1 ELSE 0 END) PSKAM31,
+                                SUM(CASE WHEN COL_MODE = 'PSKAM50' THEN 1 ELSE 0 END) PSKAM50,
+                                SUM(CASE WHEN COL_MODE = 'PSKFEC31' THEN 1 ELSE 0 END) PSKFEC31,
+                                SUM(CASE WHEN COL_MODE = 'PSKHELL' THEN 1 ELSE 0 END) PSKHELL,
+                                SUM(CASE WHEN COL_MODE = 'QPSK31' THEN 1 ELSE 0 END) QPSK31,
+                                SUM(CASE WHEN COL_MODE = 'QPSK63' THEN 1 ELSE 0 END) QPSK63,
+                                SUM(CASE WHEN COL_MODE = 'QPSK125' THEN 1 ELSE 0 END) QPSK125,
+                                SUM(CASE WHEN COL_MODE = 'THRBX' THEN 1 ELSE 0 END) THRBX
+                                FROM    `TABLE_HRD_CONTACTS_V01` 
+                                WHERE COL_SWL = 0
+                                GROUP BY DATE_FORMAT(COL_TIME_ON, '%Y')
+                                ORDER BY DATE_FORMAT(COL_TIME_ON, '%Y');";
+            MySqlCommand Command = new MySqlCommand(SqlCommand, HrdLogbookConnection);
+            Command.CommandTimeout = 3600;
+            using (MySqlDataReader reader = Command.ExecuteReader())
+            {
+                HrdQsoYearModeList.Clear();
+                while (reader.Read())
+                {
+                    HRDProperties.ReportYearModeProperty QsoYearModeList = new HRDProperties.ReportYearModeProperty();
+                    QsoYearModeList.YEAR = reader["year"].ToString();
+                    QsoYearModeList.AM = reader["am"].ToString();
+                    QsoYearModeList.ARDOP = reader["ardop"].ToString();
+                    QsoYearModeList.ATV = reader["atv"].ToString();
+                    QsoYearModeList.C4FM = reader["c4fm"].ToString();
+                    QsoYearModeList.CHIP = reader["chip"].ToString();
+                    QsoYearModeList.CLO = reader["clo"].ToString();
+                    QsoYearModeList.CONTESTI = reader["contesti"].ToString();
+                    QsoYearModeList.CW = reader["cw"].ToString();
+                    QsoYearModeList.DIGITALVOICE = reader["digitalvoice"].ToString();
+                    QsoYearModeList.DOMINO = reader["domino"].ToString();
+                    QsoYearModeList.DSTAR = reader["dstar"].ToString();
+                    QsoYearModeList.FAX = reader["fax"].ToString();
+                    QsoYearModeList.FM = reader["fm"].ToString();
+                    QsoYearModeList.FSK441 = reader["fsk441"].ToString();
+                    QsoYearModeList.FT8 = reader["ft8"].ToString();
+                    QsoYearModeList.HELL = reader["hell"].ToString();
+                    QsoYearModeList.ISCAT = reader["iscat"].ToString();
+                    QsoYearModeList.JT4 = reader["jt4"].ToString();
+                    QsoYearModeList.JT6M = reader["jt6m"].ToString();
+                    QsoYearModeList.JT9 = reader["jt9"].ToString();
+                    QsoYearModeList.JT44 = reader["jt44"].ToString();
+                    QsoYearModeList.JT65 = reader["jt65"].ToString();
+                    QsoYearModeList.MFSK = reader["mfsk"].ToString();
+                    QsoYearModeList.MSK144 = reader["msk144"].ToString();
+                    QsoYearModeList.MT63 = reader["mt63"].ToString();
+                    QsoYearModeList.OLIVIA = reader["olivia"].ToString();
+                    QsoYearModeList.OPERA = reader["opera"].ToString();
+                    QsoYearModeList.PAC = reader["pac"].ToString();
+                    QsoYearModeList.PAX = reader["pax"].ToString();
+                    QsoYearModeList.PKT = reader["pkt"].ToString();
+                    QsoYearModeList.PSK = reader["psk"].ToString();
+                    QsoYearModeList.PSK2K = reader["psk2k"].ToString();
+                    QsoYearModeList.Q15 = reader["q15"].ToString();
+                    QsoYearModeList.QRA64 = reader["qra64"].ToString();
+                    QsoYearModeList.ROS = reader["ros"].ToString();
+                    QsoYearModeList.RTTY = reader["rtty"].ToString();
+                    QsoYearModeList.RTTYM = reader["rttym"].ToString();
+                    QsoYearModeList.SSB = reader["ssb"].ToString();
+                    QsoYearModeList.SSTV = reader["sstv"].ToString();
+                    QsoYearModeList.T10 = reader["t10"].ToString();
+                    QsoYearModeList.THOR = reader["thor"].ToString();
+                    QsoYearModeList.THRB = reader["thrb"].ToString();
+                    QsoYearModeList.TOR = reader["tor"].ToString();
+                    QsoYearModeList.V4 = reader["v4"].ToString();
+                    QsoYearModeList.VOI = reader["voi"].ToString();
+                    QsoYearModeList.WINMOR = reader["winmor"].ToString();
+                    QsoYearModeList.WSPR = reader["wspr"].ToString();
+                    QsoYearModeList.AMTORFEC = reader["amtorfec"].ToString();
+                    QsoYearModeList.ASCI = reader["asci"].ToString();
+                    QsoYearModeList.CHIP64 = reader["chip64"].ToString();
+                    QsoYearModeList.CHIP128 = reader["chip128"].ToString();
+                    QsoYearModeList.DOMINOF = reader["dominof"].ToString();
+                    QsoYearModeList.FMHELL = reader["fmhell"].ToString();
+                    QsoYearModeList.FSK31 = reader["fsk31"].ToString();
+                    QsoYearModeList.GTOR = reader["gtor"].ToString();
+                    QsoYearModeList.HELL80 = reader["hell80"].ToString();
+                    QsoYearModeList.HFSK = reader["hfsk"].ToString();
+                    QsoYearModeList.JT4A = reader["jt4a"].ToString();
+                    QsoYearModeList.JT4B = reader["jt4b"].ToString();
+                    QsoYearModeList.JT4C = reader["jt4c"].ToString();
+                    QsoYearModeList.JT4D = reader["jt4d"].ToString();
+                    QsoYearModeList.JT4E = reader["jt4e"].ToString();
+                    QsoYearModeList.JT4F = reader["jt4f"].ToString();
+                    QsoYearModeList.JT4G = reader["jt4g"].ToString();
+                    QsoYearModeList.JT65A = reader["jt65a"].ToString();
+                    QsoYearModeList.JT65B = reader["jt65b"].ToString();
+                    QsoYearModeList.JT65C = reader["jt65c"].ToString();
+                    QsoYearModeList.MFSK8 = reader["mfsk8"].ToString();
+                    QsoYearModeList.MFSK16 = reader["mfsk16"].ToString();
+                    QsoYearModeList.PAC2 = reader["pac2"].ToString();
+                    QsoYearModeList.PAC3 = reader["pac3"].ToString();
+                    QsoYearModeList.PAX2 = reader["pax2"].ToString();
+                    QsoYearModeList.PCW = reader["pcw"].ToString();
+                    QsoYearModeList.PSK10 = reader["psk10"].ToString();
+                    QsoYearModeList.PSK31 = reader["psk31"].ToString();
+                    QsoYearModeList.PSK63 = reader["psk63"].ToString();
+                    QsoYearModeList.PSK63F = reader["psk63f"].ToString();
+                    QsoYearModeList.PSK125 = reader["psk125"].ToString();
+                    QsoYearModeList.PSKAM10 = reader["pskam10"].ToString();
+                    QsoYearModeList.PSKAM31 = reader["pskam31"].ToString();
+                    QsoYearModeList.PSKAM50 = reader["pskam50"].ToString();
+                    QsoYearModeList.PSKFEC31 = reader["pskfec31"].ToString();
+                    QsoYearModeList.PSKHELL = reader["pskhell"].ToString();
+                    QsoYearModeList.QPSK31 = reader["qpsk31"].ToString();
+                    QsoYearModeList.QPSK63 = reader["qpsk63"].ToString();
+                    QsoYearModeList.QPSK125 = reader["qpsk125"].ToString();
+                    QsoYearModeList.THRBX = reader["thrbx"].ToString();
+                    HrdQsoYearModeList.Add(QsoYearModeList);
+                }
+            }
+        }
+
+
+
+
+
+
+
 
         public static List<DxccObjects> HrdDxccList = new List<DxccObjects>();
 
