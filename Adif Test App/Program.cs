@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using System.Management.Automation;
 using AdifLibrary;
-using HrdLibrary;
-using CountryListLibrary;
 using CsvLibrary;
-
+using HamRadioDeluxeDatabaseLibrary;
 
 namespace Adif_Test_App
 {
@@ -19,12 +17,14 @@ namespace Adif_Test_App
         static void Main(string[] args)
         {
 
-
+            HamRadioDeluxeDatabase.ConnectToDatabase("192.168.64.200", 3307, "PA1REG", "dC7K68zUdGx6FKEu", "PA1REG");
+            HamRadioDeluxeDatabase.DatabaseInfo();
+            Console.ReadLine();
             // CsvUtils.ReadBandList();
 
-            CsvUtils.CsvReaderQso(@"Z:\Repos\HamRadioLibrary\src\eQsl.ccWithComment.csv",true,true,false);
+            //CsvUtils.CsvReaderQso(@"Z:\Repos\HamRadioLibrary\src\eQsl.ccWithComment.csv",true,true,false);
 
-            CsvUtils.AdiWriteQso(@"Z:\Repos\HamRadioLibrary\src\Test.Adi");
+            //CsvUtils.AdiWriteQso(@"Z:\Repos\HamRadioLibrary\src\Test.Adi");
 
 
             //string StartDate = "2011-05-02";
