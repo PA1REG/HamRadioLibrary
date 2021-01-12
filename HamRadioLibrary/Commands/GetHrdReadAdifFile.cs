@@ -15,7 +15,7 @@ namespace HrdReadAdifFile
     public class GetHrdReadAdifFile : Cmdlet
     {
         [Parameter(Position = 0, Mandatory = true)]
-        [Alias("AdifFileName")]
+        [Alias("AdifFile")]
         public string FileName { get; set; }
         [Parameter(Position = 0, Mandatory = false)]
         [Alias("AdifHeader")]
