@@ -1,10 +1,21 @@
 # How To Install HamRadioLibrary: <img src="https://images.squarespace-cdn.com/content/v1/57f6d51c9f74566f55ecf271/1596384349316-DO2TSCP8SNJPNH0Q7M17/ke17ZwdGBToddI8pDm48kAUs_xhejcPdACkit3Uqn_MUqsxRUqqbr1mOJYKfIPR7XwrA8kppQOKviAkmJK9CHboFd9iwF0xUPsKoMZ8qyy7TTjtF1zbdWMJZqACxENLyMcoqmXUBolG7AqSytomVKo_4jSo_Wf4R8oUF5rEzd3E/installOverview.png?format=1000w" width="250" title="DLC" alt="DLC" align="right" vspace = "50">
 
+
+
+
+
+
+
+
 DeepLabCut can be run on Windows, Linux, or MacOS (see more details at [technical considerations](/docs/installation.md#technical-considerations)). 
 
  There are several modes of installation, and the user should decide to either use a **system-wide** (see [note below](/docs/installation.md#system-wide-considerations)), **Anaconda environment** based installation (recommended), or the supplied **Docker container** (recommended for Ubuntu advanced users). One can of course also use other Python distributions than Anaconda, but **Anaconda is the easiest route.** 
  
- ## Step 1: You need to have Python 3 installed, and we highly recommend using Anaconda to do so. 
+ ## Step 1: Set Execution policy to install. 
+
+Logon as Administrator and type : Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser
+
+https://github.com/PA1REG/HamRadioLibrary/Screenshots/ExecutionPolicy.PNG
  
  ### Simply download the appropriate files here: https://www.anaconda.com/distribution/
  
