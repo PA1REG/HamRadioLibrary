@@ -15,6 +15,10 @@ DeepLabCut can be run on Windows, Linux, or MacOS (see more details at [technica
 
 Logon as Administrator and type : Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser
 
+<p align="center">
+<img src="https://github.com/PA1REG/HamRadioLibrary/Screenshots/ExecutionPolicy.PNG?format=750w" width="50%">
+</p>
+
 https://github.com/PA1REG/HamRadioLibrary/Screenshots/ExecutionPolicy.PNG
  
  ### Simply download the appropriate files here: https://www.anaconda.com/distribution/
