@@ -19,6 +19,8 @@ Logon as Administrator and type : Set-ExecutionPolicy -ExecutionPolicy Unrestric
 <img src="https://github.com/PA1REG/HamRadioLibrary/Screenshots/ExecutionPolicy.PNG?format=750w" width="50%">
 </p>
 
+test
+
 https://github.com/PA1REG/HamRadioLibrary/Screenshots/ExecutionPolicy.PNG
  
  ### Simply download the appropriate files here: https://www.anaconda.com/distribution/
