@@ -16,12 +16,12 @@ DeepLabCut can be run on Windows, Linux, or MacOS (see more details at [technica
 Logon as Administrator and type : Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser
 
 <p align="center">
-<img src="https://github.com/PA1REG/HamRadioLibrary/Screenshots/ExecutionPolicy.PNG?format=750w" width="50%">
+<img src="https://github.com/PA1REG/HamRadioLibrary/blob/Reorganize/Screenshots/ExecutionPolicy.PNG?format=750w" width="50%">
 </p>
 
 test
 
-![alt text](https://github.com/PA1REG/HamRadioLibrary/Screenshots/ExecutionPolicy.PNG)
+![alt text](https://github.com/PA1REG/HamRadioLibrary/blob/Reorganize/Screenshots/ExecutionPolicy.PNG)
 
 test2
 
