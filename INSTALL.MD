@@ -1,40 +1,51 @@
 # How To Install, Update and Remove HamRadioLibrary:
 
  
- ## Installation HamRadioLibrary. 
+# Installation using the [PowerShell Gallery](https://www.powershellgallery.com)
 
 Open PowerShell as Administrator!
-Type : Find-Module HamRadioLibrary
-( First time use asks for installing "NuGet provider", accept with "Y" )
-Type : Install-Module HamRadioLibrary
-Accept "Untrusted repository" with "Y"
-Check if module is succesfully installed
-Type : Get-Module -Name HamRadioLibrary -ListAvailable
-Import module
-Type : Import-Module -Name HamRadioLibrary -Force
-Check if the commands are available
-Type : Get-Command -Module HamRadioLibrary
+
+You can run the following commands to check the PowerShell cmdlets releases:
+
+```PowerShell
+Find-Module HamRadioLibrary -AllowPrerelease
+```
+
+You can run the following commands to install the PowerShell cmdlets:
+
+```PowerShell
+Install-Module HamRadioLibrary -AllowPrerelease
+```
+
+You can check the installed HamRadioLibrary version with the following command:
+
+```powershell
+Get-Module HamRadioLibrary -ListAvailable | Select-Object Name, Version | Sort-Object Version -Descending
+```
+
+# Importing module
+
+```powershell
+Import-Module -Name HamRadioLibrary -Force -AllowPrerelease
+``` 
+
+# Getting all available commands in the module
+
+```powershell
+Get-Command -Module HamRadioLibrary
+``` 
 
 ![alt text](https://github.com/PA1REG/HamRadioLibrary/blob/Reorganize/Screenshots/Installation.PNG)
 
 
- ## Update new version of HamRadioLibrary. 
 
-Open PowerShell as Administrator!
-Check current version
-Get-Module -Name HamRadioLibrary -ListAvailable
-Check if new version is available
-Find-Module HamRadioLibrary
-New version, then
-Type : Install-Module HamRadioLibrary -Force
-Accept "Untrusted repository" with "Y"
-Check if module is succesfully installed
-Type : Get-Module -Name HamRadioLibrary -ListAvailable
-Import module
-Type : Import-Module -Name HamRadioLibrary -Force
-Check if the commands are available
-Type : Get-Command -Module HamRadioLibrary
+## How to Update the Cmdlets 
 
+To update the current installation:
+
+```powershell
+Install-Module HamRadioLibrary -Force -AllowPrerelease
+``` 
 
 ![alt text](https://github.com/PA1REG/HamRadioLibrary/blob/Reorganize/Screenshots/Update.PNG)
 
@@ -42,7 +53,10 @@ Type : Get-Command -Module HamRadioLibrary
 ## Remove module HamRadioLibrary. 
 
 Uninstall the module.
+
+```powershell
 Uninstall-Module HamRadioLibrary -Force -AllVersions
+``` 
 
 
 Return to [readme](../README.md).
