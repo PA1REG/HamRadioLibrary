@@ -32,7 +32,7 @@ function Start-HrdQsoCallBandMode {
     Write-Host("")
 
     Write-Host("Reading ADIF file : ""$($AdifFile)"", wait .............") -ForegroundColor Yellow
-    $AdifRecords = Get-AdifFile -FileName $AdifFile
+    $AdifRecords = Get-AdiReadFile -FileName $AdifFile
     $OmContacts = $AdifRecords
     Write-Host("Start comparing OM records with the HrdLogbook database") -ForegroundColor Yellow
     Write-Host("")
@@ -108,7 +108,7 @@ function Start-HrdSwlContacts {
     Write-Host("")
 
     Write-Host("Reading ADIF file : ""$($AdifFile)"", wait .............") -ForegroundColor Yellow
-    $AdifRecords = Get-AdifFile -FileName $AdifFile
+    $AdifRecords = Get-AdiReadFile -FileName $AdifFile
     $SwlContacts = $AdifRecords | Where-Object { $PSItem.QSLMSG -like "*wkd*" -or $PSItem.QSLMSG -like "*working*" -or $PSItem.QSLMSG -like "*wsl*" -or $PSItem.QSLMSG -like "*heard*" -or $PSItem.QSLMSG -like "*report*" }
     Write-Host("Start comparing SWL records with the HrdLogbook database") -ForegroundColor Yellow
     Write-Host("")

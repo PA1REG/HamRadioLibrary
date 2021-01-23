@@ -7,12 +7,12 @@ using System.Reflection;
 using AdifLibrary;
 using AdifProperties;
 
-namespace HrdReadAdifFile
+namespace AdiReadFile
 {
 
-    [Cmdlet(VerbsCommon.Get, "HrdReadAdifFile")]
+    [Cmdlet(VerbsCommon.Get, "AdiReadFile")]
     [OutputType(typeof(string))]
-    public class GetHrdReadAdifFile : Cmdlet
+    public class GetAdiReadFile : Cmdlet
     {
         [Parameter(Position = 0, Mandatory = true)]
         [Alias("AdifFile")]
