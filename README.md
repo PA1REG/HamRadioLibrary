@@ -1,21 +1,7 @@
 # HamRadioLibrary
 
-
 A free Powershell module for retrieving information from the HamRadio Deluxe Logbook Database (MariaDB) and reading ADIF - Amateur Data Interchange Format - files to query the informatin with the Logbook.
 
-
-## Documentation ##
-
-## Latest Version
-
-Version 0.0.5.0 - Jan 12, 2021
-
-- Initial Release
-
-
-
-
-[Full version history](https://github.com/PA1REG/HamRadioLibrary/releases)
 
 ## TODO
 
