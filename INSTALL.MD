@@ -34,7 +34,7 @@ Import-Module -Name HamRadioLibrary -Force -AllowPrerelease
 ```powershell
 Get-Command -Module HamRadioLibrary
 ``` 
-
+Screenshot installation:
 ![alt text](https://github.com/PA1REG/HamRadioLibrary/blob/Reorganize/Screenshots/Installation.PNG)
 
 
@@ -46,13 +46,13 @@ To update the current installation:
 ```powershell
 Install-Module HamRadioLibrary -Force -AllowPrerelease
 ``` 
-
+Screenshot update:
 ![alt text](https://github.com/PA1REG/HamRadioLibrary/blob/Reorganize/Screenshots/Update.PNG)
 
 
 ## Remove module HamRadioLibrary. 
 
-Uninstall the module.
+Uninstall the module:
 
 ```powershell
 Uninstall-Module HamRadioLibrary -Force -AllVersions
