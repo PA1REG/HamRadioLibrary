@@ -1,7 +1,7 @@
-# How To Install, Update and Remove HamRadioLibrary:
+### How To Install, Update and Remove HamRadioLibrary:
 
  
-# Installation using the [PowerShell Gallery](https://www.powershellgallery.com)
+## Installation using the [PowerShell Gallery](https://www.powershellgallery.com)
 
 Open PowerShell as Administrator!
 
@@ -41,7 +41,7 @@ Get-Command -Module HamRadioLibrary
 
 
 
-## How to Update the Cmdlets 
+## Update using the [PowerShell Gallery](https://www.powershellgallery.com)
 
 To update the current installation:
 
