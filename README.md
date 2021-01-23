@@ -12,6 +12,9 @@ See [instructions\update](./INSTALL.md).
 
 1. Expand returning fields from the database with Get-HrdSearch
 
+## Change log
+See [Change log](./CHANGELOG.md).
+
 ## My QRZ Page
 PA1REG (https://www.qrz.com/db/PA1REG)
 
