@@ -58,7 +58,7 @@ Install-Module HamRadioLibrary -Force -AllowPrerelease
 ![alt text](https://github.com/PA1REG/HamRadioLibrary/blob/Reorganize/Screenshots/Update.PNG)
 
 
-## Remove module HamRadioLibrary. 
+## Remove module HamRadioLibrary 
 
 ### Remove Installation
 
