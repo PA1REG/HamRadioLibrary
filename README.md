@@ -26,7 +26,7 @@ PA1REG (https://www.qrz.com/db/PA1REG)
 
 ## Special Thanks
 
-Special thanks to Joe ZIEGELSHIFFER for Beta testing (https://www.qrz.com/db/OP4K) and it has inspired me to create this PowerShell Module.
+Special thanks to Joe Ziegelshiffer for Beta testing (https://www.qrz.com/db/OP4K) and it has inspired me to create this PowerShell Module.
 
 ## Feedback
 
