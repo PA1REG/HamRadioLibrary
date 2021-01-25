@@ -5,12 +5,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
-## [0.0.5] - 2021-01-24
+## [0.0.5] - 2021-01-25
 
 ### Added
 
 ### Changed
-First Release
+First Public Prerelease
 
 ### Contributors
 - Reginald Baalbergen [pa1reg]
