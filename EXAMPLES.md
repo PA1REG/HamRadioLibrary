@@ -49,5 +49,4 @@ Show all calls which Mode=FT8 and sort on freq:
 Get-HrdSearch -Call pa1* | Where-Object { $PSItem.Mode -eq "FT8" } | Sort-Object Freq
 ``` 
 
-
 Return to [readme](./README.md).
