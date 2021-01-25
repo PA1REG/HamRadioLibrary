@@ -6,6 +6,86 @@ namespace HamRadioDeluxeProperties
     public class HRDProperties
     {
 
+        public class HrdFieldsObjects
+        {
+            public string CALL { get; set; }
+            public string QSO_DATE { get; set; }
+            public string TIME_ON { get; set; }
+            public string TIME_OFF { get; set; }
+            public string BAND { get; set; }
+            public string FREQ { get; set; }
+            public string MODE { get; set; }
+            public string RST_SENT { get; set; }
+            public string RST_RCVD { get; set; }
+            public string QSL_SENT { get; set; }
+            public string QSL_SENT_VIA { get; set; }
+            public string GRIDSQUARE { get; set; }
+            public string STATION_CALLSIGN { get; set; }
+            public string CONTEST_ID { get; set; }
+            public string OPERATOR { get; set; }
+            public string CQZ { get; set; }
+            public string STX { get; set; }
+            public string SWL { get; set; }
+        }
+
+        public class HrdIndexObjects
+        {
+            public string INDEX_NAME { get; set; }
+            public string INDEX_COLUMNS { get; set; }
+            public Int32 CARDINALITY { get; set; }
+        }
+
+        public class ReportBandObjects
+        {
+            public string BAND { get; set; }
+            public string WORKED { get; set; }
+        }
+
+        public class ReportModeObjects
+        {
+            public string MODE { get; set; }
+            public string SUBMODE { get; set; }
+            public string WORKED { get; set; }
+        }
+
+        public class ReportBandModeObjects
+        {
+            public string BAND { get; set; }
+            public string MODE { get; set; }
+            public string SUBMODE { get; set; }
+            public string WORKED { get; set; }
+        }
+
+        public class ReportYearBandModeObjects
+        {
+            public string YEAR { get; set; }
+            public string BAND { get; set; }
+            public string MODE { get; set; }
+            public string SUBMODE { get; set; }
+            public string WORKED { get; set; }
+        }
+
+        public class ReportQsoObjects
+
+        {
+            public string WORKED { get; set; }
+            public string OM { get; set; }
+            public string SWL { get; set; }
+        }
+
+        public class DxccObjects
+        {
+            public string DXCC { get; set; }
+            public string COUNTRY { get; set; }
+        }
+
+        public class ReportQsoByYearObjects
+        {
+            public string YEAR { get; set; }
+            public string WORKED { get; set; }
+            public string PERCENT { get; set; }
+        }
+
         public class ReportYearModeProperty
         {
             public string YEAR { get; set; }

@@ -1,0 +1,24 @@
+Function        Start-HrdQsoCallBandMode                           0.0.5      HamRadioLibrary
+Function        Start-HrdSwlContacts                               0.0.5      HamRadioLibrary
+Cmdlet          Convert-CsvToAdif                                  0.0.5      HamRadioLibrary
+
+
+******************** done ************************************
+
+Cmdlet          Connect-HrdDatabase                                0.0.5      HamRadioLibrary
+Cmdlet          Disconnect-HrdDatabase                             0.0.5      HamRadioLibrary
+Cmdlet          Get-HrdDatabaseInfo                                0.0.5      HamRadioLibrary
+Cmdlet          Get-HrdIndexStatistics                             0.0.5      HamRadioLibrary
+Cmdlet          Start-HrdTableAnalyze                              0.0.5      HamRadioLibrary
+Cmdlet          Start-HrdTableOptimize                             0.0.5      HamRadioLibrary
+Cmdlet          Get-HrdSearch                                      0.0.5      HamRadioLibrary
+Cmdlet          Get-HrdReportBand                                  0.0.5      HamRadioLibrary
+Cmdlet          Get-HrdReportBand                                  0.0.5      HamRadioLibrary
+Cmdlet          Get-HrdReportBandMode                              0.0.5      HamRadioLibrary
+Cmdlet          Get-HrdReportMode                                  0.0.5      HamRadioLibrary
+Cmdlet          Get-HrdReportQso                                   0.0.5      HamRadioLibrary
+Cmdlet          Get-HrdReportQsoPerYear                            0.0.5      HamRadioLibrary
+Cmdlet          Get-HrdReportQsoYearMode                           0.0.5      HamRadioLibrary
+Cmdlet          Get-HrdReportYearBandMode                          0.0.5      HamRadioLibrary
+Cmdlet          Get-AdifFile                                       0.0.5      HamRadioLibrary
+
