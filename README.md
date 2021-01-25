@@ -8,6 +8,10 @@ A free Powershell module for retrieving information from the HamRadio Deluxe Log
 
 See [instructions\update](./INSTALL.md).
 
+## Some examples
+
+See [examples](./EXAMPLES.md).
+
 ## TODO
 
 1. Expand returning fields from the database with Get-HrdSearch

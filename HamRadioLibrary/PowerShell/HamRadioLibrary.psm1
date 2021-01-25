@@ -19,12 +19,12 @@ function Start-HrdQsoCallBandMode {
     Write-Verbose "Start Module : [$($MyInvocation.MyCommand)] *************************************"
 
 
-    if (!$CsvFileSwlContacts ) {
-      $CsvFileSwlContacts = ".\OmContacts.csv"
+    if (!$CsvFileOmContacts ) {
+      $CsvFileOmContacts = ".\OmContacts.csv"
     }
 
-    if (!$AdifFileSwlContacts ) {
-      $AdifFileSwlContacts = ".\OmContacts.adi"
+    if (!$AdifFileOmContacts ) {
+      $AdifFileOmContacts = ".\OmContacts.adi"
     }
     
     Write-Warning("Starting analyze, during analyse table statistics there is a lock (no read/write allowed) on the HrdLogbook table.")
@@ -71,7 +71,7 @@ function Start-HrdQsoCallBandMode {
     Write-Host("Writing CSV file : ""$($CsvFileOmContacts)""") -ForegroundColor Yellow
     $AdifNotFoundArray | Export-Csv -Path $CsvFileOmContacts -Encoding ASCII -NoTypeInformation
     Write-Host("Writing ADIF file : ""$($AdifFileOmContacts)""") -ForegroundColor Yellow
-    Convert-CsvToAdif -CsvFileName $OmFileSwlContacts -AdifFileName $AdifFileOmContacts -Swl -QslMsgCopyToComment
+    Convert-CsvToAdif -CsvFileName $CsvFileOmContacts -AdifFileName $AdifFileOmContacts -Swl -QslMsgCopyToComment
 
     Write-Verbose "End Module  : [$($MyInvocation.MyCommand)] *************************************"
   }
