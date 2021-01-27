@@ -12,6 +12,11 @@ See [instructions\update](./INSTALL.md).
 
 See [examples](./EXAMPLES.md).
 
+## Some Report to file examples
+
+See [reports](./REPORTS.md).
+
+
 ## TODO
 
 1. Expand returning fields from the database with Get-HrdSearch
