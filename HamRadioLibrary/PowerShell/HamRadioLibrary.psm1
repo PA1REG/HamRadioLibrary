@@ -153,5 +153,56 @@ function Start-HrdSwlContacts {
   }
 }
 
+
+
+function Get-XlsReportQsoYearMode {
+  [CmdletBinding()]
+  param
+  (
+    [Parameter(Position = 0, Mandatory = $true)]
+    [String] $ExcelFile,
+    [Parameter(Position = 1, Mandatory = $false)]
+    [Switch] $AutoOpen
+ 
+  )
+  begin {
+    Write-Verbose "Start Module : [$($MyInvocation.MyCommand)] *************************************"
+    
+    $ModuleName = "ImportExcel"
+    $ModuleExcel = Get-Module -Name $ModuleName
+    if ($ModuleExcel) {
+    }
+    else {
+      Write-Warning("Module NOT installed, run as Administrator first : Install-Module -Name ImportExcel and Import-Module -Name ImportExcel -Force") 
+      Break
+    }
+
+    $Report = Get-HrdReportQsoYearMode
+    $Report | Export-Excel -Path $ExcelFile
+    Write-Host("Writing Excel file : ""$($ExcelFile)""") -ForegroundColor Yellow
+  
+    if ($AutoOpen) {
+      # start Excel
+      $excel = New-Object -comobject Excel.Application
+
+      #open file
+     
+      $FilePath =  (Get-ChildItem -Path $ExcelFile).FullName 
+      $Workbook = $Excel.Workbooks.Open($FilePath)
+
+      #make it visible (just to check what is happening)
+      $Excel.Visible = $true
+   
+    }
+
+    Write-Verbose "End Module  : [$($MyInvocation.MyCommand)] *************************************"
+  }
+}
+
 Export-ModuleMember -function Start-HrdQsoCallBandMode
 Export-ModuleMember -function Start-HrdSwlContacts
+Export-ModuleMember -function Get-XlsReportQsoYearMode
+
+Export-ModuleMember -function Start-HrdQsoCallBandMode
+Export-ModuleMember -function Start-HrdSwlContacts
+
