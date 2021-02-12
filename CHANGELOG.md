@@ -6,10 +6,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 
+## [0.0.7] - 2021-02-12
+
+### Added
+Update-HrdQso new cmdlet.
+
+### Changed
+Get-HrdSearch, added field "Key" for use pipeline possibility with Update-HrdQso.
+
+
 ## [0.0.6] - 2021-02-07
 
 ### Added
-Get-XlsReportQsoYearMode function.
+Get-XlsReportQsoYearMode new function.
 
 ### Changed
 -

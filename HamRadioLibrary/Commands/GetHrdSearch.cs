@@ -110,7 +110,8 @@ namespace HrdSearch
                         OPERATOR = FieldList.OPERATOR,
                         CQZ = FieldList.CQZ,
                         STX = FieldList.STX,
-                        SWL = FieldList.SWL
+                        SWL = FieldList.SWL,
+                        KEY = FieldList.KEY
                     });
                 }
 

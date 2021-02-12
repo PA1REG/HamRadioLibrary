@@ -10,7 +10,7 @@ using HamRadioDeluxeDatabaseLibrary;
 namespace HrdTableAnalyze
 {
 
-        [Cmdlet(VerbsLifecycle.Start, "HrdTableAnalyze")]
+    [Cmdlet(VerbsLifecycle.Start, "HrdTableAnalyze")]
     [OutputType(typeof(string))]
     public class StartHrdTableAnalyze : Cmdlet
     {

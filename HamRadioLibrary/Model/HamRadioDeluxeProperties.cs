@@ -26,6 +26,7 @@ namespace HamRadioDeluxeProperties
             public string CQZ { get; set; }
             public string STX { get; set; }
             public string SWL { get; set; }
+            public string KEY { get; set; }
         }
 
         public class HrdIndexObjects

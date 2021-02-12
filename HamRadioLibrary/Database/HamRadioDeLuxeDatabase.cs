@@ -13,6 +13,7 @@ using System.Xml;
 using System.Runtime.InteropServices;
 using HamRadioDeluxeProperties;
 using System.Diagnostics;
+using HamRadioLibrary.Common;
 
 namespace HamRadioDeluxeDatabaseLibrary
 {
@@ -212,7 +213,7 @@ namespace HamRadioDeluxeDatabaseLibrary
                     strCall = strCall.Replace("?", "_");
                 }
                 SqlCommand = "SELECT COL_CALL, DATE_FORMAT(COL_TIME_ON, '%Y%m%d') AS COL_QSO_DATE, DATE_FORMAT(COL_TIME_ON, '%H%i%s') AS COL_TIME_ON, DATE_FORMAT(COL_TIME_OFF, '%H%i%s') AS COL_TIME_OFF," +
-                             " COL_BAND, COL_MODE, COL_RST_SENT, COL_RST_RCVD, COL_QSL_SENT, COL_QSL_SENT_VIA, COL_GRIDSQUARE, COL_STATION_CALLSIGN, COL_FREQ, COL_CONTEST_ID, COL_OPERATOR, COL_CQZ, COL_STX, COL_SWL" +
+                             " COL_BAND, COL_MODE, COL_RST_SENT, COL_RST_RCVD, COL_QSL_SENT, COL_QSL_SENT_VIA, COL_GRIDSQUARE, COL_STATION_CALLSIGN, COL_FREQ, COL_CONTEST_ID, COL_OPERATOR, COL_CQZ, COL_STX, COL_SWL, COL_PRIMARY_KEY" +
                              " FROM TABLE_HRD_CONTACTS_V01" +
                              " WHERE COL_CALL LIKE '" + strCall + "'";
 
@@ -222,7 +223,7 @@ namespace HamRadioDeluxeDatabaseLibrary
                 if (strMode.ToUpper() == "SSB")
                 {
                     SqlCommand = "SELECT COL_CALL, DATE_FORMAT(COL_TIME_ON, '%Y%m%d') AS COL_QSO_DATE, DATE_FORMAT(COL_TIME_ON, '%H%i%s') AS COL_TIME_ON, DATE_FORMAT(COL_TIME_OFF, '%H%i%s') AS COL_TIME_OFF," +
-                                 " COL_BAND, COL_MODE, COL_RST_SENT, COL_RST_RCVD, COL_QSL_SENT, COL_QSL_SENT_VIA, COL_GRIDSQUARE, COL_STATION_CALLSIGN, COL_FREQ, COL_CONTEST_ID, COL_OPERATOR, COL_CQZ, COL_STX, COL_SWL" +
+                                 " COL_BAND, COL_MODE, COL_RST_SENT, COL_RST_RCVD, COL_QSL_SENT, COL_QSL_SENT_VIA, COL_GRIDSQUARE, COL_STATION_CALLSIGN, COL_FREQ, COL_CONTEST_ID, COL_OPERATOR, COL_CQZ, COL_STX, COL_SWL, COL_PRIMARY_KEY" +
                                  " FROM TABLE_HRD_CONTACTS_V01" +
                                  " WHERE COL_CALL = '" + strCall + "'" +
                                  " AND COL_MODE IN ('LSB', 'USB', 'SSB')";
@@ -239,7 +240,7 @@ namespace HamRadioDeluxeDatabaseLibrary
                 {
 
                     SqlCommand = "SELECT COL_CALL, DATE_FORMAT(COL_TIME_ON, '%Y%m%d') AS COL_QSO_DATE, DATE_FORMAT(COL_TIME_ON, '%H%i%s') AS COL_TIME_ON, DATE_FORMAT(COL_TIME_OFF, '%H%i%s') AS COL_TIME_OFF," +
-                             " COL_BAND, COL_MODE, COL_RST_SENT, COL_RST_RCVD, COL_QSL_SENT, COL_QSL_SENT_VIA, COL_GRIDSQUARE, COL_STATION_CALLSIGN, COL_FREQ, COL_CONTEST_ID, COL_OPERATOR, COL_CQZ, COL_STX, COL_SWL" +
+                             " COL_BAND, COL_MODE, COL_RST_SENT, COL_RST_RCVD, COL_QSL_SENT, COL_QSL_SENT_VIA, COL_GRIDSQUARE, COL_STATION_CALLSIGN, COL_FREQ, COL_CONTEST_ID, COL_OPERATOR, COL_CQZ, COL_STX, COL_SWL, COL_PRIMARY_KEY" +
                              " FROM TABLE_HRD_CONTACTS_V01" +
                              " WHERE COL_CALL = '" + strCall + "'" +
                              " AND COL_MODE = '" + strMode + "'";
@@ -248,7 +249,7 @@ namespace HamRadioDeluxeDatabaseLibrary
             else if (strMode == null)
             {
                 SqlCommand = "SELECT COL_CALL, DATE_FORMAT(COL_TIME_ON, '%Y%m%d') AS COL_QSO_DATE, DATE_FORMAT(COL_TIME_ON, '%H%i%s') AS COL_TIME_ON, DATE_FORMAT(COL_TIME_OFF, '%H%i%s') AS COL_TIME_OFF," +
-                             " COL_BAND, COL_MODE, COL_RST_SENT, COL_RST_RCVD, COL_QSL_SENT, COL_QSL_SENT_VIA, COL_GRIDSQUARE, COL_STATION_CALLSIGN, COL_FREQ, COL_CONTEST_ID, COL_OPERATOR, COL_CQZ, COL_STX, COL_SWL" +
+                             " COL_BAND, COL_MODE, COL_RST_SENT, COL_RST_RCVD, COL_QSL_SENT, COL_QSL_SENT_VIA, COL_GRIDSQUARE, COL_STATION_CALLSIGN, COL_FREQ, COL_CONTEST_ID, COL_OPERATOR, COL_CQZ, COL_STX, COL_SWL, COL_PRIMARY_KEY" +
                              " FROM TABLE_HRD_CONTACTS_V01" +
                              " WHERE COL_CALL = '" + strCall + "'" +
                              " AND COL_BAND = '" + strBand + "'";
@@ -259,7 +260,7 @@ namespace HamRadioDeluxeDatabaseLibrary
                 {
                     // todo or --> in
                     SqlCommand = "SELECT COL_CALL, DATE_FORMAT(COL_TIME_ON, '%Y%m%d') AS COL_QSO_DATE, DATE_FORMAT(COL_TIME_ON, '%H%i%s') AS COL_TIME_ON, DATE_FORMAT(COL_TIME_OFF, '%H%i%s') AS COL_TIME_OFF," +
-                                 " COL_BAND, COL_MODE, COL_RST_SENT, COL_RST_RCVD, COL_QSL_SENT, COL_QSL_SENT_VIA, COL_GRIDSQUARE, COL_STATION_CALLSIGN, COL_FREQ, COL_CONTEST_ID, COL_OPERATOR, COL_CQZ, COL_STX, COL_SWL" +
+                                 " COL_BAND, COL_MODE, COL_RST_SENT, COL_RST_RCVD, COL_QSL_SENT, COL_QSL_SENT_VIA, COL_GRIDSQUARE, COL_STATION_CALLSIGN, COL_FREQ, COL_CONTEST_ID, COL_OPERATOR, COL_CQZ, COL_STX, COL_SWL, COL_PRIMARY_KEY" +
                                  " FROM TABLE_HRD_CONTACTS_V01" +
                                  " WHERE COL_CALL = '" + strCall + "'" +
                                  " AND COL_BAND = '" + strBand + "'" +
@@ -278,7 +279,7 @@ namespace HamRadioDeluxeDatabaseLibrary
                 else
                 {
                     SqlCommand = "SELECT COL_CALL, DATE_FORMAT(COL_TIME_ON, '%Y%m%d') AS COL_QSO_DATE, DATE_FORMAT(COL_TIME_ON, '%H%i%s') AS COL_TIME_ON, DATE_FORMAT(COL_TIME_OFF, '%H%i%s') AS COL_TIME_OFF," +
-                                 " COL_BAND, COL_MODE, COL_RST_SENT, COL_RST_RCVD, COL_QSL_SENT, COL_QSL_SENT_VIA, COL_GRIDSQUARE, COL_STATION_CALLSIGN, COL_FREQ, COL_CONTEST_ID, COL_OPERATOR, COL_CQZ, COL_STX, COL_SWL" +
+                                 " COL_BAND, COL_MODE, COL_RST_SENT, COL_RST_RCVD, COL_QSL_SENT, COL_QSL_SENT_VIA, COL_GRIDSQUARE, COL_STATION_CALLSIGN, COL_FREQ, COL_CONTEST_ID, COL_OPERATOR, COL_CQZ, COL_STX, COL_SWL, COL_PRIMARY_KEY" +
                                  " FROM TABLE_HRD_CONTACTS_V01" +
                                  " WHERE COL_CALL = '" + strCall + "'" +
                                  " AND COL_BAND = '" + strBand + "'" +
@@ -351,6 +352,7 @@ namespace HamRadioDeluxeDatabaseLibrary
                     FieldList.QSO_DATE = reader["COL_QSO_DATE"].ToString();
                     FieldList.TIME_ON = reader["COL_TIME_ON"].ToString();
                     FieldList.TIME_OFF = reader["COL_TIME_OFF"].ToString();
+                    FieldList.KEY = reader["COL_PRIMARY_KEY"].ToString();
                     HrdFieldsList.Add(FieldList);
                 }
                 return FoundCall;
@@ -830,6 +832,37 @@ namespace HamRadioDeluxeDatabaseLibrary
             Console.ReadLine();
             return true;
         }
+
+
+        public static Int32 UpdateHrdQso(string PrimaryKey, string Operator, Boolean TitleCase)
+        {
+            // https://stackoverflow.com/questions/20492019/update-statement-in-mysql-using-c-sharp
+ 
+            if (TitleCase)
+            {
+                Operator = CommonUtilities.ToTitleCase(Operator);
+            }
+
+            //Console.WriteLine("Key = {0}, Operator = {1}", PrimaryKey, Operator);
+
+            string SqlCommand = "UPDATE TABLE_HRD_CONTACTS_V01 SET COL_OPERATOR=@Operator WHERE COL_PRIMARY_KEY=@Primary_key;";
+            MySqlCommand Command = new MySqlCommand();
+            Command.CommandText = SqlCommand;
+            Command.Parameters.AddWithValue("@Operator", Operator);
+            Command.Parameters.AddWithValue("@Primary_key", PrimaryKey);
+            Command.Connection = HrdLogbookConnection;
+            Int32 Affectedrows = Command.ExecuteNonQuery();
+            //if (Affectedrows != 0)
+            //{
+            //    //con.Close();
+            //    //return true;
+            //    Console.WriteLine("Effected rows : {0}",Affectedrows.ToString());
+            //}
+            return Affectedrows;
+
+        }
+
+
 
         //public static HRDProperties.HrdFieldsObjects HrdFields = new HRDProperties.HrdFieldsObjects();
 
