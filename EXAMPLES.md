@@ -50,4 +50,19 @@ Get-HrdSearch -Call pa1* | Where-Object { $PSItem.Mode -eq "FT8" } | Sort-Object
 ``` 
 
 
+### EXAMPLE 3
+
+Search for all Qso's from OP4K.
+Show results.
+Update selected calls with the operators correct name and make the first letters of the names capital.
+
+```powershell
+$Calls = Get-HrdSearch -Call OP4K 
+$Calls
+$Calls | Update-HrdQso -Operator "joe ziegelshiffer" -TitleCase
+```
+
+Run the first 2 commands, see the results and then run the last command.
+
+
 Return to [readme](./README.md).

@@ -1,0 +1,3 @@
+Find-Package MySql.Data
+Install-Package MySql.Data
+Get-Module MySql.Data -ListAvailable

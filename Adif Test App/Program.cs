@@ -17,7 +17,8 @@ namespace Adif_Test_App
         static void Main(string[] args)
         {
 
-            //HamRadioDeluxeDatabase.ConnectToDatabase("localhost", 3307, "PA1REG", "MyPassword", "PA1REG");
+            HamRadioDeluxeDatabase.ConnectToDatabase("192.168.64.200", 3307, "PA1REG", "dC7K68zUdGx6FKEu", "PA1REG");
+            HamRadioDeluxeDatabase
             //HamRadioDeluxeDatabase.DatabaseInfo();
             //Console.ReadLine();
             //// CsvUtils.ReadBandList();
