@@ -862,6 +862,27 @@ namespace HamRadioDeluxeDatabaseLibrary
 
         }
 
+        public static Int32 UpdateHrdOperator(string Call, string Operator, Boolean TitleCase)
+        {
+            // https://stackoverflow.com/questions/20492019/update-statement-in-mysql-using-c-sharp
+
+            if (TitleCase)
+            {
+                Operator = CommonUtilities.ToTitleCase(Operator);
+            }
+
+            //Console.WriteLine("Key = {0}, Operator = {1}", PrimaryKey, Operator);
+
+            string SqlCommand = "UPDATE TABLE_HRD_CONTACTS_V01 SET COL_OPERATOR=@Operator WHERE COL_CALL=@Call;";
+            MySqlCommand Command = new MySqlCommand();
+            Command.CommandText = SqlCommand;
+            Command.Parameters.AddWithValue("@Operator", Operator);
+            Command.Parameters.AddWithValue("@Call", Call);
+            Command.Connection = HrdLogbookConnection;
+            Int32 Affectedrows = Command.ExecuteNonQuery();
+            return Affectedrows;
+        }
+
 
 
         //public static HRDProperties.HrdFieldsObjects HrdFields = new HRDProperties.HrdFieldsObjects();
