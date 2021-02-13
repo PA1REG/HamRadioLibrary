@@ -31,6 +31,8 @@ Get-XlsReportQsoYearMode new function.
 -
 
 
+=======
+
 ## [0.0.5] - 2021-01-25
 
 ### Added
