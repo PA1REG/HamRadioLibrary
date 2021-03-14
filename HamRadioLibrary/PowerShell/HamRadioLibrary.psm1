@@ -154,6 +154,7 @@ function Start-HrdSwlContacts {
 }
 
 
+
 function Get-XlsReportQsoYearMode {
   [CmdletBinding()]
   param
@@ -206,3 +207,7 @@ function Get-XlsReportQsoYearMode {
 Export-ModuleMember -function Start-HrdQsoCallBandMode
 Export-ModuleMember -function Start-HrdSwlContacts
 Export-ModuleMember -function Get-XlsReportQsoYearMode
+
+Export-ModuleMember -function Start-HrdQsoCallBandMode
+Export-ModuleMember -function Start-HrdSwlContacts
+
