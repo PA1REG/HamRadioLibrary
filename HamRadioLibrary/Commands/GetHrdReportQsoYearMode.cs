@@ -14,6 +14,10 @@ namespace HrdReportQsoYearMode
     [OutputType(typeof(string))]
     public class GetHrdReportQsoYearMode : Cmdlet
     {
+        [Parameter(Position = 0, Mandatory = false)]
+        public string StartDate { get; set; }
+        [Parameter(Position = 0, Mandatory = false)]
+        public string EndDate { get; set; }
 
         protected override void ProcessRecord()
         {
@@ -22,8 +26,33 @@ namespace HrdReportQsoYearMode
                 ThrowTerminatingError(new ErrorRecord(new Exception("You must call the Connect-HrdDatabase cmdlet before calling any other cmdlets."), "NotConnectedToDatabase", ErrorCategory.ConnectionError, this));
                 return;
             }
+
+            WriteVerbose("StartDate : '" + StartDate + "'");
+            object LowestDate = null;
+            if (StartDate != "" && StartDate != null)
+            {
+                LowestDate = HamRadioDeluxeDatabase.ConvertToDate(StartDate);
+                if (LowestDate == null)
+                {
+                    WriteWarning("The entered StartDate (" + StartDate + ") is not the correct format (yyyyMMdd).");
+                    return;
+                }
+            }
+
+            WriteVerbose("EndDate : '" + EndDate + "'");
+            object HighestDate = null;
+            if (EndDate != "" && EndDate != null)
+            {
+                HighestDate = HamRadioDeluxeDatabase.ConvertToDate(EndDate);
+                if (LowestDate == null)
+                {
+                    WriteWarning("The entered EndDate (" + EndDate + ") is not the correct format (yyyyMMdd).");
+                    return;
+                }
+            }
+
             WriteVerbose("Fill the list.");
-            HamRadioDeluxeDatabase.ReportQsoYearMode();
+            HamRadioDeluxeDatabase.ReportQsoYearMode(LowestDate, HighestDate);
 
             WriteVerbose("Reading list.");
             foreach (HRDProperties.ReportYearModeProperty QsoYearModeList in HamRadioDeluxeDatabase.HrdQsoYearModeList)

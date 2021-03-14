@@ -591,8 +591,25 @@ namespace HamRadioDeluxeDatabaseLibrary
 
         public static List<HRDProperties.ReportYearModeProperty> HrdQsoYearModeList = new List<HRDProperties.ReportYearModeProperty>();
 
-        public static void ReportQsoYearMode()
-        {
+        public static void ReportQsoYearMode([Optional] object StartDate, [Optional] object EndDate)
+                    {
+            //object StartDate = null;
+            //object EndDate = null;
+            string StartDateSql = "1900-01-01";
+            if (StartDate != null && StartDate.ToString() != string.Empty)
+            {
+                DateTime postingDate = Convert.ToDateTime(StartDate);
+                //StartDateSql = string.Format("yyyy-MM-dd", postingDate);
+                StartDateSql = postingDate.ToString("yyyy-MM-dd");
+            }
+            string EndDateSql = DateTime.Now.ToString("yyyy-MM-dd");
+            if (EndDate != null && EndDate.ToString() != string.Empty)
+            {
+                DateTime postingDate = Convert.ToDateTime(EndDate);
+                // EndDateSql = string.Format("yyyy-MM-dd", postingDate);
+                EndDateSql = postingDate.ToString("yyyy-MM-dd");
+            }
+
             string MyDatabase = CurrentDatabase();
             //                      (select count(*) as SWL from `TABLE_HRD_CONTACTS_V01` where col_swl=1) as SWL,
             string SqlCommand = @"SELECT DATE_FORMAT(COL_TIME_ON, '%Y') as YEAR,
@@ -685,6 +702,7 @@ namespace HamRadioDeluxeDatabaseLibrary
                                 SUM(CASE WHEN COL_MODE = 'THRBX' THEN 1 ELSE 0 END) THRBX
                                 FROM    `TABLE_HRD_CONTACTS_V01` 
                                 WHERE COL_SWL = 0
+                                AND DATE(COL_TIME_ON) BETWEEN '" + StartDateSql + @"' AND '" + EndDateSql + @"' 
                                 GROUP BY DATE_FORMAT(COL_TIME_ON, '%Y')
                                 ORDER BY DATE_FORMAT(COL_TIME_ON, '%Y');";
             MySqlCommand Command = new MySqlCommand(SqlCommand, HrdLogbookConnection);
