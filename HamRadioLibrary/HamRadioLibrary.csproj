@@ -5,14 +5,14 @@
     <Authors>PA1REG</Authors>
     <Company>Spanning Software</Company>
     <Product>HamRadioLibrary for ADIF file read and Ham Radio Deluxe database query to a Maria Database</Product>
-    <Version>0.0.8</Version>
+    <Version>0.0.9</Version>
     <Description>You can read a Amateur Data Interchange Format (ADIF) file into PowerShell and make selections  with PowerShell.
 You can alos connect to a MariaDB with a Ham Radio Deluxe table (TABLE_HRD_CONTACTS_V01). You can query the database but also make selections with PowerShell.</Description>
     <Copyright>2021 J.R. Baalbergen de PA1REG</Copyright>
     <PackageReleaseNotes>Beta</PackageReleaseNotes>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
-    <AssemblyVersion>0.0.8.0</AssemblyVersion>
-    <FileVersion>0.0.8.0</FileVersion>
+    <AssemblyVersion>0.0.9.0</AssemblyVersion>
+    <FileVersion>0.0.9.0</FileVersion>
     <ApplicationIcon>Icon\HamRadioLibrary.ico</ApplicationIcon>
   </PropertyGroup>
 

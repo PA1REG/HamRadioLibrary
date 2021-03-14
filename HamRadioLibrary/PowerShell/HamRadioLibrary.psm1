@@ -161,7 +161,11 @@ function Get-XlsReportQsoYearMode {
     [Parameter(Position = 0, Mandatory = $true)]
     [String] $ExcelFile,
     [Parameter(Position = 1, Mandatory = $false)]
-    [Switch] $AutoOpen
+    [Switch] $AutoOpen,
+    [Parameter(Position = 2, Mandatory = $false)]
+    [String] $StartDate,
+    [Parameter(Position = 3, Mandatory = $false)]
+    [String] $EndDate
  
   )
   begin {
@@ -176,7 +180,8 @@ function Get-XlsReportQsoYearMode {
       Break
     }
 
-    $Report = Get-HrdReportQsoYearMode
+    Remove-Item -Path $ExcelFile -Force -ErrorAction Ignore
+    $Report = Get-HrdReportQsoYearMode -StartDate $StartDate  -EndDate $EndDate
     $Report | Export-Excel -Path $ExcelFile
     Write-Host("Writing Excel file : ""$($ExcelFile)""") -ForegroundColor Yellow
   
@@ -186,7 +191,7 @@ function Get-XlsReportQsoYearMode {
 
       #open file
      
-      $FilePath =  (Get-ChildItem -Path $ExcelFile).FullName 
+      $FilePath = (Get-ChildItem -Path $ExcelFile).FullName 
       $Workbook = $Excel.Workbooks.Open($FilePath)
 
       #make it visible (just to check what is happening)
